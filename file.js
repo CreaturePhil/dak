@@ -3,9 +3,8 @@
 /* hi */
 
 
-/*
-@type str :: Number
-*/
+// @type str :: Number
+
 var str = 'hello world!';
 console.log(str);
 
