@@ -1,0 +1,35 @@
+{
+  "name": "dak",
+  "version": "0.0.0",
+  "description": "Static type checker with Hindley–Milner type system syntax",
+  "repository": "CreaturePhil/dak",
+  "bin": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "cli-app",
+    "cli",
+    "type",
+    "type",
+    "types",
+    "static type checker",
+    "Hindley-Midner",
+    "type system"
+  ],
+  "author": {
+    "name": "Philip La",
+    "email": "birkal@outlook.com",
+    "url": "creaturephil.github.io"
+  },
+  "license": "MIT",
+  "engines": {
+    "node": ">=4.0.0"
+  },
+  "files": [
+    "index.js"
+  ],
+  "dependencies": {
+    "meow": "^3.7.0"
+  }
+}
