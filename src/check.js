@@ -28,7 +28,6 @@ function primitiveType(valueType, typeDef) {
   };
 }
 
-
 const Types = new Map([
   ['Boolean', primitiveType],
   ['Number', primitiveType],

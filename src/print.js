@@ -30,10 +30,11 @@ function print(data, results) {
         console.log(`\n\t${r.expected}`);
         console.log(`\nBut the definition (${colors.yellow(typeDef)}) is a:`);
         console.log(`\n\t${r.actual}`);
-        console.log(`\nFound ${errors.length} error${errors.length === 1 ? '' : 's'}\n`);
       }
     }
   });
+
+  console.log(`\nFound ${errors.length} error${errors.length === 1 ? '' : 's'}\n`);
 }
 
 module.exports = print;
