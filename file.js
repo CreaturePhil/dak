@@ -22,7 +22,7 @@ function foo2(x, y) {
   return x.length * y;
 }
 
-foo2('Hello', 42);
+//foo2('Hello', 42);
 
 // @type strLength :: String -> Number
 var strLength = function(s) {

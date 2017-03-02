@@ -15,11 +15,18 @@ function print(data, results) {
           j++;
         }
         console.log('\n' + colors.cyan('-- TYPE MISMATCH -----------------------------------------------------------'));
-        console.log(i + '|\t' + r.comment);
+        const parts = r.comment.split('@type');
+        console.log(i + '|\t' + parts[0] + colors.magenta('@') + colors.cyan('type') + colors.yellow(parts[1]));
         for (let k = i + 1; k < j; k++) {
           console.log(k + '|');
         }
-        console.log(colors.red('> ') + j + '|\t' + lines[j]);
+
+        if (r.isVariable) {
+          console.log(colors.red('> ') + j + '|\t' + lines[j]);
+        } else if (r.isArg || r.isReturn) {
+          console.log(j + '|\t' + lines[j]);
+          console.log('\n' +  colors.red('> ') + r.lineNumber + '|\t' + r.line);
+        }
 
         const typeDef = r.comment
           .replace('@type', '')
@@ -27,9 +34,16 @@ function print(data, results) {
           .replace('//', '')
           .trim();
         console.log(`\nThe type annotation for ${colors.bold(r.name)} says it is a:`);
-        console.log(`\n\t${r.expected}`);
-        console.log(`\nBut the definition (${colors.yellow(typeDef)}) is a:`);
-        console.log(`\n\t${r.actual}`);
+        console.log(`\n\t${colors.underline(r.expected)}`);
+
+        if (r.isVariable) {
+          console.log(`\nBut the variable declaration (shown above) is a:`);
+        } else if (r.isArg) {
+          console.log(`\nBut the ${colors.italic('argument')} pass to the function call (shown above) is a:`);
+        } else if (r.isReturn) {
+          console.log(`\nBut the ${colors.italic('return value')} of the function call (shown above) is a:`);
+        }
+        console.log(`\n\t${colors.underline(r.actual)}`);
       }
     }
   });
