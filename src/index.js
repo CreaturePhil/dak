@@ -24,7 +24,7 @@ fs.readFile(path.join(process.cwd(), cli.input[0]), 'utf8', (err, data) => {
   const contents = data.replace(consoleLogRegex, '');
   const typeDefs = parse(contents);
   const results = check(contents, typeDefs);
-  console.log(results);
+  //console.log(results);
 
   print(data, results);
 });

@@ -17,7 +17,8 @@ test('type mismatch variable', t => {
     comment: '// @type str :: Number',
     name: 'str',
     actual: 'String',
-    expected: 'Number'
+    expected: 'Number',
+    isVariable: true
   }];
   t.deepEqual(check(contents, typeDefs), expectedResult);
 });
@@ -41,7 +42,8 @@ test('type mismatch variable and correct type', t => {
       comment: '// @type str :: Number',
       name: 'str',
       actual: 'String',
-      expected: 'Number'
+      expected: 'Number',
+      isVariable: true
     },
     {
       check: 'success',

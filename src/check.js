@@ -106,7 +106,6 @@ function getFunctionArgs(f) {
 
 function getFnCalls(contents, typeDef) {
   const lines = contents.split('\n');
-  const WHITESPACE = /\s/;
   const FNCALL = new RegExp(typeDef.name + '\(.*\)');
   let fnCalls = [];
   for (let i = 0, len = lines.length; i < len; i++) {

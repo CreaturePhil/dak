@@ -15,8 +15,11 @@ function print(data, results) {
           j++;
         }
         console.log('\n' + colors.cyan('-- TYPE MISMATCH -----------------------------------------------------------'));
-        const parts = r.comment.split('@type');
-        console.log(i + '|\t' + parts[0] + colors.magenta('@') + colors.cyan('type') + colors.yellow(parts[1]));
+
+        const tParts = r.comment.split('@type');
+        const nParts = tParts[1].split('::');
+
+        console.log(i + '|\t' + tParts[0] + colors.magenta('@') + colors.cyan('type ') + nParts[0] + colors.red('::') + colors.yellow(nParts[1]));
         for (let k = i + 1; k < j; k++) {
           console.log(k + '|');
         }
@@ -28,11 +31,6 @@ function print(data, results) {
           console.log('\n' +  colors.red('> ') + r.lineNumber + '|\t' + r.line);
         }
 
-        const typeDef = r.comment
-          .replace('@type', '')
-          .replace('/*', '')
-          .replace('//', '')
-          .trim();
         console.log(`\nThe type annotation for ${colors.bold(r.name)} says it is a:`);
         console.log(`\n\t${colors.underline(r.expected)}`);
 
