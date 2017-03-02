@@ -47,7 +47,7 @@ function primitiveType(valueType, typeDef) {
 function functionType(valueType, typeDef, contents) {
   return getFnCalls(contents, typeDef)
     .map(fnCall => {
-      const argsResults = getFunctionArgs(fnCall.line)
+      const argsResults = getFunctionArgs(fnCall.call, contents)
         .map((arg, i) => {
           const argType = getType(arg);
           if (argType === typeDef.types[i]) {
@@ -67,7 +67,7 @@ function functionType(valueType, typeDef, contents) {
         });
 
       let returnValue;
-      eval(contents + `\nreturnValue = ${fnCall.line}\n`);
+      eval(contents + `\nreturnValue = ${fnCall.call}\n`);
       const returnValueType = getType(returnValue);
       const expectedType = typeDef.types[typeDef.types.length - 1];
 
@@ -92,10 +92,10 @@ function functionType(valueType, typeDef, contents) {
     });
 }
 
-// @type getFunctionArgs :: String -> [a]
-function getFunctionArgs(f) {
+// @type getFunctionArgs :: String -> String -> [a]
+function getFunctionArgs(f, contents) {
   let args = [];
-  eval(`
+  eval(contents + `
     function ${f.slice(0, f.indexOf('('))}() {
       args = Array.prototype.slice.call(arguments);
     }
@@ -104,18 +104,32 @@ function getFunctionArgs(f) {
   return args;
 }
 
+function parenMatchEnough(fnCall) {
+  let parens = 0, start = false;
+  for (let i = 0; i <  fnCall.length; i++) {
+    if (fnCall[i] === ')' && !parens) {
+      return fnCall.slice(0, i + 1);
+    }
+    if (fnCall[i] === '(' && !start) {
+      start = true;
+    } else if (fnCall[i] === '(') {
+      parens++;
+    } else if (fnCall[i] === ')') {
+      parens--;
+    }
+  }
+}
+
 function getFnCalls(contents, typeDef) {
   const lines = contents.split('\n');
-  const FNCALL = new RegExp(typeDef.name + '\(.*\)');
+  const FNCALL = new RegExp(typeDef.name + '\\(.*\\)');
   let fnCalls = [];
   for (let i = 0, len = lines.length; i < len; i++) {
     let line = lines[i].trim();
     if (line.slice(0, 2) === '//') continue;
-    if (line.slice(0, 8) === 'function') continue;
-    if (line.slice(0, 3) === 'let' || line.slice(0, 3) === 'var') continue;
-    if (line.slice(0, 5) === 'const') continue;
+    if (line.indexOf('function') >= 0) continue;
     if (FNCALL.test(line)) {
-      fnCalls.push({line, lineNumber: i});
+      fnCalls.push({line, call: parenMatchEnough(line.match(FNCALL)[0]), lineNumber: i});
     }
   }
   return fnCalls;

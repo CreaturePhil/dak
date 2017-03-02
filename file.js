@@ -29,4 +29,5 @@ var strLength = function(s) {
   return s.length;
 }
 
-strLength({});
+foo(strLength({}));
+const l = strLength({});
