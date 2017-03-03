@@ -1,7 +1,7 @@
 <h1 align="center">choo</h1>
 
 <div align="center">
-  Static type checker with [Hindley–Milner type system](https://en.wikipedia.org/wiki/Hindley%E2%80%93Milner_type_system) syntax
+  Static type checker with <a href="https://en.wikipedia.org/wiki/Hindley%E2%80%93Milner_type_system">Hindley–Milner type system</a> syntax
 </div>
 
 <div align="center">
