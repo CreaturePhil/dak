@@ -31,3 +31,9 @@ var strLength = function(s) {
 
 foo(strLength({}));
 const l = strLength({});
+
+// @type arr :: [Number]
+var arr = ['string']
+
+// @type arr2 :: [Number]
+var arr2 = [1, 2, 'string']

@@ -108,16 +108,6 @@ test('type mismatch function argument and return type', t => {
       check: 'error',
       comment: '// @type strLength :: String -> Number',
       name: 'strLength',
-      actual: 'Object',
-      expected: 'String',
-      line: 'strLength({});',
-      lineNumber: 7,
-      isArg: true
-    },
-    {
-      check: 'error',
-      comment: '// @type strLength :: String -> Number',
-      name: 'strLength',
       actual: 'Undefined',
       expected: 'Number',
       line: 'strLength({});',
@@ -125,5 +115,27 @@ test('type mismatch function argument and return type', t => {
       isReturn: true
     }
   ];
+  t.deepEqual(check(contents, typeDefs), expectedResult);
+});
+
+test('type mismatch array variable', t => {
+  const contents = `
+  // @type arr :: [Number]
+
+  const arr = ["Hello, World!"];
+  `;
+  const typeDefs = [{
+    comment: '// @type arr :: [Number]',
+    name: 'arr',
+    types: ['[Number]']
+  }];
+  const expectedResult = [{
+    check: 'error',
+    comment: '// @type arr :: [Number]',
+    name: 'arr',
+    actual: '[String]',
+    expected: '[Number]',
+    isVariable: true
+  }];
   t.deepEqual(check(contents, typeDefs), expectedResult);
 });

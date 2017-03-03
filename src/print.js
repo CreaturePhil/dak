@@ -1,6 +1,6 @@
 const colors = require('colors');
 
-function print(data, results) {
+function print(data, results, file) {
   const lines = data.split('\n');
   const length = lines.length;
 
@@ -46,7 +46,7 @@ function print(data, results) {
     }
   });
 
-  console.log(`\nFound ${errors.length} error${errors.length === 1 ? '' : 's'}\n`);
+  console.log(`\nFound ${errors.length} error${errors.length === 1 ? '' : 's'} in ${colors.bold(file)}\n`);
 }
 
 module.exports = print;
