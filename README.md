@@ -1,7 +1,7 @@
 <h1 align="center">dak</h1>
 
 <div align="center">
-  Static type checker using <a href="https://en.wikipedia.org/wiki/Hindley%E2%80%93Milner_type_system">Hindley–Milner</a> type signatures
+  Static type checker using <a href="https://drboolean.gitbooks.io/mostly-adequate-guide/content/ch7.html">Hindley–Milner</a> type signatures
 </div>
 
 <br />
