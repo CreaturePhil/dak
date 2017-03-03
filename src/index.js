@@ -52,7 +52,9 @@ function readDir(p) {
   return new Promise((res, rej) => {
     fs.readdir(p, (err, files) => {
       if (err) return rej(err);
-      const ps = files.map(file => readFile(path.join(p, file)));
+      const ps = files
+        .filter(file => path.extname(file))
+        .map(file => readFile(path.join(p, file)));
       Promise.all(ps)
         .then(datas => res({datas, file: path.basename(p)}))
         .catch(err => {
