@@ -40,6 +40,18 @@
 $ npm install --global dak
 ```
 
+## Usage
+
+```
+$ dak --help
+
+Usage
+$ dak [options] file.js [file.js] [dir]
+
+Options
+  --throw  Throws an error
+```
+
 ## Examples
 
 `hello.js` file:
@@ -126,18 +138,6 @@ But the argument pass to the function call (shown above) is a:
 	Number for the key "type"
 
 Found 3 errors in hello.js
-```
-
-## Usage
-
-```
-$ dak --help
-
-Usage
-$ dak [options] file.js [file.js] [dir]
-
-Options
-  --throw  Throws an error
 ```
 
 ## License
