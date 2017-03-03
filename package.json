@@ -1,6 +1,6 @@
 {
   "name": "dak",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "description": "Static type checker with Hindley–Milner type system syntax",
   "repository": "CreaturePhil/dak",
   "bin": "src/index.js",
