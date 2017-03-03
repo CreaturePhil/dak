@@ -1,5 +1,13 @@
-const getType = require('./getType');
+const path = require('path');
+const walk = require('walk');
+
 const compareTypes = require('./compareTypes');
+const getType = require('./getType');
+
+const options = {
+  followLinks: false,
+  filters: ['.git', 'node_modules']
+};
 
 function functionType(valueType, typeDef, contents) {
   return getFnCalls(contents, typeDef)
@@ -54,13 +62,34 @@ function tryEval(v, contents, s) {
   try {
     eval(contents + s);
   } catch (e) {
-    contents = contents
-      .split('\n')
-      .map(c => c.indexOf('require') >= 0 ? '' : c);
-    try {
-      eval(contents + s);
-    } catch (e) {
-      console.error(e);
+    if (e.message.slice(0, 18) === 'Cannot find module') {
+      const fnCalls = getFnCalls(contents, {name: 'require'}, true);
+      const walker = walk.walk(process.cwd(), options);
+
+      walker.on("file", function (root, fileStats, next) {
+        fnCalls.forEach(fnCall => {
+          const arg = getFunctionArgs(fnCall.call, '')[0];
+          if (path.basename(arg) + '.js' === fileStats.name) {
+            let lines = contents.split('\n');
+            for (let i = 0; i < lines.length; i++) {
+              if (lines[i] === fnCall.line) {
+                lines[i] = 'var ' + lines[i].split(' ')[1] + `= require('${path.join(root, fileStats.name)}');`;
+                break;
+              }
+            }
+            contents = lines.join('\n');
+          }
+        });
+        next();
+      });
+
+      walker.on('end', () => {
+        try {
+          eval(contents + s);
+        } catch (e) {
+          console.error(e);
+        }
+      });
     }
   }
   return v;
@@ -92,14 +121,14 @@ function parenMatchEnough(fnCall) {
   }
 }
 
-function getFnCalls(contents, typeDef) {
+function getFnCalls(contents, typeDef, ignoreFunction) {
   const lines = contents.split('\n');
   const FNCALL = new RegExp(typeDef.name + '\\(.*\\)');
   let fnCalls = [];
   for (let i = 0, len = lines.length; i < len; i++) {
     let line = lines[i].trim();
     if (line.slice(0, 2) === '//') continue;
-    if (line.indexOf('function') >= 0) continue;
+    if (!ignoreFunction && line.indexOf('function') >= 0) continue;
     if (FNCALL.test(line)) {
       fnCalls.push({line, call: parenMatchEnough(line.match(FNCALL)[0]), lineNumber: i});
     }
