@@ -6,6 +6,7 @@ const commentRegex = /\/\*[\s\S]*?\*\/|([^\\:]|^)\/\/.*$/gm;
 function parse(contents) {
   const comments = contents.match(commentRegex);
 
+  if (!comments) return [];
   if (comments[0].indexOf('@dak') < 0) return [];
 
   return comments

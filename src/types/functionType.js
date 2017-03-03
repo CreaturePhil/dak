@@ -24,8 +24,7 @@ function functionType(valueType, typeDef, contents) {
           }
         });
 
-      let returnValue;
-      eval(contents + `\nreturnValue = ${fnCall.call}\n`);
+      const returnValue = tryEval(undefined, contents, `\nv = ${fnCall.call}\n`);
       const returnValueType = getType(returnValue);
       const expectedType = typeDef.types[typeDef.types.length - 1];
 
@@ -51,16 +50,30 @@ function functionType(valueType, typeDef, contents) {
     });
 }
 
+function tryEval(v, contents, s) {
+  try {
+    eval(contents + s);
+  } catch (e) {
+    contents = contents
+      .split('\n')
+      .map(c => c.indexOf('require') >= 0 ? '' : c);
+    try {
+      eval(contents + s);
+    } catch (e) {
+
+    }
+  }
+  return v;
+}
+
 // @type getFunctionArgs :: String -> String -> [a]
 function getFunctionArgs(f, contents) {
-  let args = [];
-  eval(contents + `
+  return tryEval([], contents, `
     function ${f.slice(0, f.indexOf('('))}() {
-      args = Array.prototype.slice.call(arguments);
+      v = Array.prototype.slice.call(arguments);
     }
     ${f}
   `);
-  return args;
 }
 
 function parenMatchEnough(fnCall) {

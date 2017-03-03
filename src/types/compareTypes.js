@@ -45,6 +45,7 @@ function compareTypes(a, b, value) {
       });
       return res;
     }
+    return {result: true};
   }
   if (a === 'Object' || b === 'Object') {
     return compareObjectType(value, b);

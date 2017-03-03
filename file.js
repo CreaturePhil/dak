@@ -43,7 +43,10 @@ var obj = {foo: "hi", bar: 2};
 
 // @type fu :: Number -> [Number]
 function fu(n) {
-  return [n, n];
+  return [1];
 }
 
 fu("a")
+
+// @type j :: [Number]
+var j = [1]

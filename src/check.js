@@ -17,20 +17,6 @@ const Types = new Map([
   ['Object', objectType]
 ]);
 
-  // 'Array',
-  // 'Object',
-  // 'String',
-  // 'Date',
-  // 'RegExp',
-  // 'Function',
-  // 'Boolean',
-  // 'Number',
-  // 'Null',
-  // 'Undefined'
-
-
-// NOTE: may need to replace === with custm evalulator for arrays and objects!
-
 function check(contents, typeDefs) {
   const results = typeDefs.map(typeDef => {
     let value;
@@ -50,6 +36,7 @@ function check(contents, typeDefs) {
   return flatten(results);
 }
 
+// @type flatten :: Number -> String
 function flatten(arr) {
   return arr.reduce((flat, toFlatten) => (
     flat.concat(Array.isArray(toFlatten) ? flatten(toFlatten) : toFlatten)

@@ -1,6 +1,6 @@
 const colors = require('colors');
 
-function print(data, results, file) {
+function print(data, results, file, shouldThrow) {
   const lines = data.split('\n');
   const length = lines.length;
 
@@ -47,6 +47,10 @@ function print(data, results, file) {
   });
 
   console.log(`\nFound ${errors.length} error${errors.length === 1 ? '' : 's'} in ${colors.bold(file)}\n`);
+
+  if (errors.length > 0 && shouldThrow) {
+    throw new Error('Dak Static Type Error');
+  }
 }
 
 module.exports = print;
