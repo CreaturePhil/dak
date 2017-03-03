@@ -42,7 +42,7 @@ function stats(p) {
 function readFile(p) {
   return new Promise((res, rej) => {
     fs.readFile(p, 'utf8', (err, data) => {
-      if (err) return res(err);
+      if (err) return rej(err);
       res({data, file: path.basename(p)});
     });
   });
@@ -73,7 +73,7 @@ const ps = cli.input.map(input => {
       }
     })
     .catch(err => {
-      throw err
+      throw err;
     });
 });
 
@@ -84,8 +84,7 @@ Promise.all(ps).then(datas => {
         data.datas
           .filter(d => d.data)
           .forEach(d => {
-            console.log(d.file, typeof d.data)
-            dak(d.data, d.file)
+            dak(d.data, d.file);
           });
       } else if (typeof data.data === 'string') {
         dak(data.data, data.file);
@@ -93,4 +92,4 @@ Promise.all(ps).then(datas => {
     });
 }).catch(err => {
   console.error(err);
-})
+});

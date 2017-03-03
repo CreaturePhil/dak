@@ -4,6 +4,8 @@
   Static type checker with <a href="https://en.wikipedia.org/wiki/Hindley%E2%80%93Milner_type_system">Hindley–Milner type system</a> syntax
 </div>
 
+<br />
+
 <div align="center">
   <!-- Stability -->
   <a href="https://nodejs.org/api/documentation.html#documentation_stability_index">

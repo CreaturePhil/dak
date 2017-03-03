@@ -60,7 +60,7 @@ function tryEval(v, contents, s) {
     try {
       eval(contents + s);
     } catch (e) {
-
+      console.error(e);
     }
   }
   return v;
