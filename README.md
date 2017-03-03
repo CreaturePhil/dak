@@ -42,6 +42,8 @@ $ npm install --global dak
 
 ## Examples
 
+`hello.js` file:
+
 ```js
 // @dak
 
@@ -76,7 +78,11 @@ function reducer(state, action) {
 reducer({count: 0}, {type: 1});
 ```
 
+Console output:
+
 ```
+$ dak hello.js
+
 -- TYPE MISMATCH -----------------------------------------------------------
 2|	// @type  greet :: String -> String
 3|	function greet(person) {
