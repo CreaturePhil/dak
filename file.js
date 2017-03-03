@@ -37,3 +37,13 @@ var arr = ['string']
 
 // @type arr2 :: [Number]
 var arr2 = [1, 2, 'string']
+
+// @type obj :: {foo: Number, bar: String}
+var obj = {foo: "hi", bar: 2};
+
+// @type fu :: Number -> [Number]
+function fu(n) {
+  return [n, n];
+}
+
+fu("a")

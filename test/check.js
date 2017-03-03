@@ -139,3 +139,25 @@ test('type mismatch array variable', t => {
   }];
   t.deepEqual(check(contents, typeDefs), expectedResult);
 });
+
+test('type mismatch object variable', t => {
+  const contents = `
+  // @type obj :: {foo: Number}
+
+  const obj = {foo: "bar"};
+  `;
+  const typeDefs = [{
+    comment: '// @type obj :: {foo: Number}',
+    name: 'obj',
+    types: ['{foo: Number}']
+  }];
+  const expectedResult = [{
+    check: 'error',
+    comment: '// @type obj :: {foo: Number}',
+    name: 'obj',
+    actual: 'String for the key "foo"',
+    expected: '{foo: Number}',
+    isVariable: true
+  }];
+  t.deepEqual(check(contents, typeDefs), expectedResult);
+});

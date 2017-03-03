@@ -32,7 +32,7 @@ function print(data, results, file) {
         }
 
         console.log(`\nThe type annotation for ${colors.bold(r.name)} says it is a:`);
-        console.log(`\n\t${colors.underline(r.expected)}`);
+        console.log(`\n\t${r.expected}`);
 
         if (r.isVariable) {
           console.log(`\nBut the variable declaration (shown above) is a:`);
@@ -41,7 +41,7 @@ function print(data, results, file) {
         } else if (r.isReturn) {
           console.log(`\nBut the ${colors.italic('return value')} of the function call (shown above) is a:`);
         }
-        console.log(`\n\t${colors.underline(r.actual)}`);
+        console.log(`\n\t${r.actual}`);
       }
     }
   });

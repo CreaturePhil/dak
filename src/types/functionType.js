@@ -1,4 +1,5 @@
 const getType = require('./getType');
+const compareTypes = require('./compareTypes');
 
 function functionType(valueType, typeDef, contents) {
   return getFnCalls(contents, typeDef)
@@ -6,14 +7,15 @@ function functionType(valueType, typeDef, contents) {
       const argsResults = getFunctionArgs(fnCall.call, contents)
         .map((arg, i) => {
           const argType = getType(arg);
-          if (argType === typeDef.types[i]) {
+          const cmp = compareTypes(argType, typeDef.types[i], arg);
+          if (cmp.result) {
             return {check: 'success', name: typeDef.name, arg};
           } else {
             return {
               check: 'error',
               comment: typeDef.comment,
               name: typeDef.name,
-              actual: argType,
+              actual: cmp.actual,
               expected: typeDef.types[i],
               line: fnCall.line,
               lineNumber: fnCall.lineNumber,
@@ -27,7 +29,8 @@ function functionType(valueType, typeDef, contents) {
       const returnValueType = getType(returnValue);
       const expectedType = typeDef.types[typeDef.types.length - 1];
 
-      if (returnValueType === expectedType) {
+      const cmp = compareTypes(returnValueType, expectedType, returnValue);
+      if (cmp.result) {
         return argsResults.concat({
           check: 'success',
           name: typeDef.name,
@@ -38,7 +41,7 @@ function functionType(valueType, typeDef, contents) {
           check: 'error',
           comment: typeDef.comment,
           name: typeDef.name,
-          actual: returnValueType,
+          actual: cmp.actual,
           expected: expectedType,
           line: fnCall.line,
           lineNumber: fnCall.lineNumber,

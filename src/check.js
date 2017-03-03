@@ -3,6 +3,7 @@
 const arrayType = require('./types/arrayType');
 const functionType = require('./types/functionType');
 const getType = require('./types/getType');
+const objectType = require('./types/objectType');
 const primitiveType = require('./types/primitiveType');
 
 const Types = new Map([
@@ -12,7 +13,8 @@ const Types = new Map([
   ['Null', primitiveType],
   ['Undefined', primitiveType],
   ['Function', functionType],
-  ['Array', arrayType]
+  ['Array', arrayType],
+  ['Object', objectType]
 ]);
 
   // 'Array',
@@ -49,9 +51,9 @@ function check(contents, typeDefs) {
 }
 
 function flatten(arr) {
-  return arr.reduce(function (flat, toFlatten) {
-    return flat.concat(Array.isArray(toFlatten) ? flatten(toFlatten) : toFlatten);
-  }, []);
+  return arr.reduce((flat, toFlatten) => (
+    flat.concat(Array.isArray(toFlatten) ? flatten(toFlatten) : toFlatten)
+  ), []);
 }
 
 module.exports = check;
